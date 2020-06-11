@@ -9,28 +9,27 @@ namespace contest
                 const unsigned char *p_src = static_cast<const unsigned char *>(left);
                 const unsigned char *p_dest = static_cast<const unsigned char *>(right);
 
-                if(left == nullptr || right == nullptr)
-                        return -2;
-
-                for(; byteLength--; p_src++, p_dest++) {
+                while(byteLength--) {
                         if(*p_src < *p_dest)
                                 return -1;
                         else if(*p_src > *p_dest)
                                 return 1;
+                        p_src++;
+                        p_dest++;
                 }
                 return 0;
 	}
 
         void *memcpy(void *_Rstr dest, const void *_Rstr src, size_t byteLength)
         {
-                if(dest == nullptr || src == nullptr || byteLength == 0)
+                if(dest == nullptr || src == nullptr || !byteLength)
                         return  dest;
 
-                const unsigned char *p_src = (const unsigned char *)src;
-                unsigned char *p_dest = (unsigned char *)dest;
+                const unsigned char *_Rstr p_src = static_cast<const unsigned char *_Rstr>(src);
+                unsigned char *_Rstr p_dest = static_cast<unsigned char *_Rstr>(dest);
 
-                for(int i = 0; i < byteLength; i++) {
-                        *(p_dest + i) = *(p_src + i);
+                while(byteLength--) {
+                        *p_dest++ = *p_src++;
                 }
 
                 return dest;
@@ -38,8 +37,8 @@ namespace contest
 
         void *memmove(void *dest, const void *src, size_t byteLength)
         {
-                const unsigned char *p_src = (const unsigned char *)src;
-                unsigned char *p_dest = (unsigned char *)dest;
+                const unsigned char *p_src = static_cast<const unsigned char *>(src);
+                unsigned char *p_dest = static_cast<unsigned char *>(dest);
 
                 if (p_src > p_dest)
                         memcpy(dest, src, byteLength);
@@ -52,34 +51,20 @@ namespace contest
 
         void *memset(void *dest, int value, size_t byteLength)
         {
-                if(dest == nullptr ||  byteLength == 0)
+                if(dest == nullptr || !byteLength)
                         return dest;
 
-                unsigned char *p_dest = (unsigned char *)dest;
+                unsigned char *p_dest = static_cast<unsigned char *>(dest);
 
-                for(int i = 0; i < byteLength; i++) {
-                        *(p_dest + i) = value;
+                while(byteLength--) {
+                        *p_dest++ = value;
                 }
-
                 return dest;
         }
 
         char *strcpy(char *_Rstr dest, const char *_Rstr src)
         {
-                if(dest == nullptr || src == nullptr)
-                return  dest;
-
-                size_t length = strlen(src);
-
-                const char *p_src = (const char *)src;
-                char *p_dest = (char *)dest;
-
-                for(int i = 0; i < length; i++) {
-                        *(p_dest + i) = *(p_src + i);
-                }
-                *(p_dest + length) = '\0';
-
-                return dest;
+                return strncpy(dest, src, strlen(src));
         }
 
         char *strncpy(char *_Rstr dest, const char *_Rstr src, size_t length)
@@ -87,13 +72,12 @@ namespace contest
                 if(dest == nullptr || src == nullptr)
                         return  dest;
 
-                const char *p_src = (const char *)src;
-                char *p_dest = (char *)dest;
+                char *_Rstr p_dest = dest;
 
-                for(int i = 0; i < length; i++) {
-                        *(p_dest + i) = *(p_src + i);
+                while(length--) {
+                        *p_dest++ = *src++;
                 }
-                *(p_dest + length) = '\0';
+                *p_dest = '\0';
 
                 return dest;
         }
@@ -107,8 +91,7 @@ namespace contest
                 while(*str != '\0') {
                         str++;
                 }
-                
-                return size_t(str - p_begin);
+                return static_cast<size_t>(str - p_begin);
         }
 
 }
