@@ -24,6 +24,7 @@ int main()
 			<< "\n"
 			<< "And good luck, with lots of love <3\n"
 			<< "Signed-off-by: Milan Gallo <gallo.milan.jr@gmail.com>\n";
+	
 
 	contest::memcmp(nullptr, nullptr, 0);
 	contest::memcpy(nullptr, nullptr, 0);
